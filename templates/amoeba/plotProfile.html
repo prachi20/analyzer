@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var dataforline = google.visualization.arrayToDataTable([
+          ['Time', 'Fold'],
+          [0, parseFloat('{{geneProfile.21}}')],
+          [0.5, parseFloat('{{geneProfile.25}}')],
+          [2, parseFloat('{{geneProfile.29}}')],
+          [8, parseFloat('{{geneProfile.33}}')],
+          [24, parseFloat('{{geneProfile.37}}')],
+          [48, parseFloat('{{geneProfile.41}}')],
+          [120, parseFloat('{{geneProfile.45}}')]
+        ]);
+        
+        var val0 =  parseFloat('{{geneProfile.21}}');
+        var dataforhist = google.visualization.arrayToDataTable([
+          ['Time', 'Log2(Fold)'],
+          [0, Math.log(parseFloat('{{geneProfile.21}}')/val0)],
+          [0.5, Math.log(parseFloat('{{geneProfile.25}}')/val0)],
+          [2, Math.log(parseFloat('{{geneProfile.29}}')/val0)],
+          [8, Math.log(parseFloat('{{geneProfile.33}}')/val0)],
+          [24, Math.log(parseFloat('{{geneProfile.37}}')/val0)],
+          [48, Math.log(parseFloat('{{geneProfile.41}}')/val0)],
+          [120, Math.log(parseFloat('{{geneProfile.45}}')/val0)]
+        ]);
+
+        var options = {
+          title: 'Gene Expression Profile'
+        };
+        var optionslog = {
+          title: 'Gene Expression Profile (Logarithmic)'
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var hist = new google.visualization.LineChart(document.getElementById('hist_div'));
+        chart.draw(dataforline, options);
+        hist.draw(dataforhist, optionslog);
+      }
+    </script>
+  </head>
+  <body>
+    <a href='http://amoebadb.org/amoeba/showRecord.do?name=GeneRecordClasses.GeneRecordClass&source_id={{geneId}}&project_id=AmoebaDB' target="_blank">Link to AmoebaDB record</a>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+    <div id="hist_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

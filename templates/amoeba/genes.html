@@ -1,0 +1,53 @@
+<h1>Genes</h1>
+{% block content %}
+    <form action="../plotProfile" method="get">   
+        <label for="geneId">Gene ID :</label>
+            <input type="text" name="geneId">
+        <input type="submit" value="Get profile">
+    </form>
+{% endblock %}
+<hr>
+<br />
+<form action="{% url "genes" %}" method="post" enctype="multipart/form-data"> 
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>
+                <label for="Time">Time :</label>
+            </td>
+            <td>
+                <select id ="time" name="time">
+                    <option value= 3> 30 minutes </option>
+                    <option value= 6> 2 hours </option>
+                    <option value= 9> 8 hours </option>
+                    <option value= 12> 24 hours </option>
+                    <option value= 15> 48 hours </option>
+                    <option value= 18> 120 hours </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="threshold">Threshold :</label>
+            </td>
+            <td>
+                <input type="text" name="threshold">
+                <input type="submit" value="Filter">
+            </td>
+            </tr>
+</table>
+</form>
+{% if time %}
+<p>Genes with normalized fold > {{threshold}} :</p>
+{% endif %}
+<table>
+{% for gene in gene_list %}
+    <tr>
+    	<td>
+    		<a href='http://amoebadb.org/amoeba/showRecord.do?name=GeneRecordClasses.GeneRecordClass&source_id={{gene}}&project_id=AmoebaDB' target="_blank">
+    		{{ gene }}</a>
+    	</td>
+    </tr>
+{% empty %}
+{% endfor %}
+<table>
